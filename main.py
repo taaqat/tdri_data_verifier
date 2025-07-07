@@ -4,6 +4,7 @@ from utils.sheet_manager import SheetManager
 from utils.data_manager import DataManager
 from utils.widget_manager import WidgetManager
 from scripts.products import verify_products_by_batch
+from scripts.reference import verify_reference_by_batch
 import streamlit as st
 import time
 import pandas as pd
@@ -79,10 +80,10 @@ if st.session_state['params']['chart_name'] == None:
         WidgetManager.choose_chart()
     st.stop()
 
-# TODO
-if st.session_state['params']['chart_name'] == "reference":
-    st.warning("設計中...")
-    st.stop()
+# # TODO
+# if st.session_state['params']['chart_name'] == "reference":
+#     st.warning("設計中...")
+#     st.stop()
 
 # * 上傳原始資料
 uploaded = st.file_uploader("上傳原始資料", key = 'user_upload')
@@ -120,10 +121,18 @@ if st.button("點擊開始逐列驗證", type = "primary"):
                        thinking_budget = st.session_state['params']['thinkingBudget'])
 
     # * Main Loop
-    verify_products_by_batch(
-        model, 
-        st.session_state['params']['raw_data'], 
-        st.session_state['params']['batch_size'],
-        sheet_client
-    )
+    if st.session_state['params']['chart_name'] == "products":
+        verify_products_by_batch(
+            model, 
+            st.session_state['params']['raw_data'], 
+            st.session_state['params']['batch_size'],
+            sheet_client
+        )
+    elif st.session_state['params']['chart_name'] == "reference":
+        verify_reference_by_batch(
+            model, 
+            st.session_state['params']['raw_data'], 
+            st.session_state['params']['batch_size'],
+            sheet_client
+        )
     st.success("驗證完畢！資料已全部存入指定的 Google Sheet 中")

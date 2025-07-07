@@ -29,23 +29,31 @@ class DataManager:
     def check_raw_data(raw_data, chart_name):
 
         is_pass = True
+        chart_name_mandarin = "產品" if chart_name == "products" else "文章"
 
-        if chart_name == "products":
+    
+        if "title" not in raw_data.columns:
+            is_pass = False
+            st.warning(f"資料中沒有{chart_name_mandarin}標題")
+        if "domain" not in raw_data.columns:
+            is_pass = False
+            st.warning(f"資料中沒有{chart_name_mandarin} domain")
+        if "category" not in raw_data.columns:
+            is_pass = False
+            st.warning(f"資料中沒有{chart_name_mandarin}類別")
+        if "subcategory" not in raw_data.columns:
+            is_pass = False
+            st.warning(f"資料中沒有{chart_name_mandarin}子類")
+        if "further_subcategory" not in raw_data.columns:
+            is_pass = False
+            st.warning(f"資料中沒有{chart_name_mandarin}品類")
 
-            if "title" not in raw_data.columns:
+        if chart_name == "reference":
+            if "label" not in raw_data.columns:
                 is_pass = False
-                st.warning("資料中沒有產品標題")
-            if "domain" not in raw_data.columns:
+                st.warning(f"資料中沒有{chart_name_mandarin}標籤")
+            if "type" not in raw_data.columns:
                 is_pass = False
-                st.warning("資料中沒有產品 domain")
-            if "category" not in raw_data.columns:
-                is_pass = False
-                st.warning("資料中沒有產品類別")
-            if "subcategory" not in raw_data.columns:
-                is_pass = False
-                st.warning("資料中沒有產品子類")
-            if "further_subcategory" not in raw_data.columns:
-                is_pass = False
-                st.warning("資料中沒有產品品類")
-
-            return is_pass
+                st.warning(f"資料中沒有{chart_name_mandarin}種類")
+        
+        return is_pass
