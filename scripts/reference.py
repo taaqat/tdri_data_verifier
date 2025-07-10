@@ -17,12 +17,13 @@ def verify_reference_by_batch(model, reference_df, batch_size, sheet_client):
     batch_id  = 1
     total_batch_num = math.ceil(len(reference_df) / batch_size)
     prog_bar = st.progress(0, "Verifying reference dataframe...")
+    processed_df  = sheet_client.get_all_records()
     while True:
 
         if start_pos >= len(reference_df):
             break
 
-        processed_df  = sheet_client.get_all_records()
+        
         if processed_df.empty:
             processed_df = pd.DataFrame(columns = ["references_id"])
 
