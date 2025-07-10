@@ -109,11 +109,12 @@ You are an assistant data analysist, and you are assigned with a task of 'verify
       (label = content class; type = article style)
 2. Factual Based: The whole analysis should be based entirely on the title of the article provided. No other reference data source is required.
 3. Do not come up with new categories in any level
+4. [Important] The output should not be self-contradictory. If all the suggested categories are the same with the current one (which means you agree with the current classification), the 'is_correct' should be true.
 
 [Technical Requirements](IMPORTANT)
 1. For the quotation marks of JSON dict, use ". If including any quotation marks inside the JSON string, use ' rather than " to avoid JSON decode error. 
 2. Only output JSON body. No other texts are allowed.
-3. The output should not be self-contradictory. If all the suggested categories are the same with the current one, the 'is_correct' should be true.
+
 
 [Input Schema] You would be given:
 1. article title

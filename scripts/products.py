@@ -5,7 +5,7 @@ import pandas as pd
 import json
 import streamlit as st
 import math
-
+import datetime as dt
 
 def verify_products_by_batch(model, products_df, batch_size, sheet_client):
     """
@@ -22,19 +22,26 @@ def verify_products_by_batch(model, products_df, batch_size, sheet_client):
     batch_id  = 1
     total_batch_num = math.ceil(len(products_df) / batch_size)
     prog_bar = st.progress(0, "Verifying products dataframe...")
+    batch_second_taken = None
+    processed_df  = sheet_client.get_all_records()   # 只會在一開始讀取
+
     while True:
 
         if start_pos >= len(products_df):
             break
 
-        processed_df  = sheet_client.get_all_records()
         if processed_df.empty:
             processed_df = pd.DataFrame(columns = ["source_product_id"])
 
         verified_data = []
         end_pos   = start_pos + batch_size if start_pos + batch_size <= len(products_df) else len(products_df)
 
+        batch_start_time = dt.datetime.now()
         for id, row in products_df.iloc[start_pos: end_pos + batch_size, :].iterrows():
+            remaining_batch_count = total_batch_num - batch_id
+            prog_content = f"Verifying products dataframe ... (Batch {batch_id} / {total_batch_num})"
+            prog_content = prog_content + " " + str(round(batch_second_taken  * remaining_batch_count / 60)) + ' minutes left approx.' if batch_second_taken is not None else ""
+            prog_bar.progress((id + 1)/len(products_df), prog_content )
 
             if row['source_product_id'] not in processed_df['source_product_id'].tolist():
 
@@ -54,7 +61,10 @@ def verify_products_by_batch(model, products_df, batch_size, sheet_client):
 
                 verified_data.append(output_json)
 
-            prog_bar.progress((id + 1)/len(products_df), f"Verifying products dataframe ... (Batch {batch_id} / {total_batch_num})" )
+            
+        
+        batch_end_time = dt.datetime.now()
+        batch_second_taken = (batch_end_time - batch_start_time).total_seconds()
 
         verified_df = pd.DataFrame(verified_data)
         if not verified_df.empty:
