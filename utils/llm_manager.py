@@ -12,7 +12,7 @@ GEMINI_KEY = st.secrets['api_keys']['GEMINI_KEY']
 
 class LlmManager():
 
-    def __init__(self, model_key = "gemini-2.5-pro", thinking_budget = 0, chart = "products"):
+    def __init__(self, model_key = "gemini-2.5-flash", thinking_budget = 0, chart = "products"):
         self.client = genai.Client(api_key = GEMINI_KEY)
         self.model_key = model_key
         self.system_prompt = PromptManager.system_prompts(chart)
