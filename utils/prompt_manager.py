@@ -144,7 +144,7 @@ in the following format:
 
 [Output Schema] You are required to output ONLY the JSON format as follows:
     {{
-    "is_correct": [BOOL] (whether the current classification is correct. if it is true, all the other categories column should be the same with the current categories),
+    "is_correct": [BOOL] (whether the current classification, not including label and type, is correct. if it is true, all the other categories column should be the same with the current categories),
     "suggested_domain": [STRING] (return current domain if is_correct == True, return the current domain if you successfully find a suggested category, return the suggested domain if you fail to find a suggested category, return '其他' if you fail again to find the suggested domain),
     "suggested_category": [STRING] (return current category if is_correct == True, return the current category if you successfully find a suggested subcategory, return the suggested category if you fail to find a suggested subcategory, return '其他' if you fail again to find the suggested category),
     "suggested_subcategory": [STRING] (return current subcategory if is_correct == True, return the current subcategory if you successfully find a suggested further subcategory, return the suggested subcategory if you fail to find a suggested further subcategory, return '其他' if you fail again to find the suggested subcategory),
