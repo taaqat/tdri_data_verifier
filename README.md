@@ -31,6 +31,24 @@ Then install required packages:
 ```
 pip install -r requirements.txt
 ```
+Also remember to configure your `.streamlit/secrets.toml` file, which requires Gemimi API key and Google Service Account Credential:
+```
+[api_keys]
+GEMINI_KEY = "YOUR GEMINI API KEY"
+
+[gsheet-credits]
+credits = '''{"type": "service_account",
+"project_id":  "YOUR_PROJECT_ID",
+"private_key_id": "YOUR_PRIVATE_KEY_ID",
+"private_key": "YOUR_PRIVATE_KEY",
+"client_email" : "YOUR_CLIENT_EMAIL",
+"client_id": "YOUR_CLIENT_ID",
+"auth_uri": "https://accounts.google.com/o/oauth2/auth",
+"token_uri": "https://oauth2.googleapis.com/token",
+"auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+"client_x509_cert_url": "YOUR_CLIENT_X509_CERT_URL",
+"universe_domain": "googleapis.com"}'''
+```
 Finally, execute by the following command:
 ```
 streamlit run main.py
@@ -41,5 +59,18 @@ streamlit run main.py
 
 務必要**注意使用的模型種類**，以免花了冤枉錢（ex：若你只輸入 gpt-4 而不細說模型 checkpoint，OpenAI 會直接幫你導流到最貴的模型，價差可達 6 倍）！
 
+Remember to edit your .env file for storing LLM api keys:
+```
+GEMINI_KEY = ""
+OPENAI_KEY = ""
+CLAUDE_KEY = ""
+```
+
 ## Products Extend
+Remember to edit your .env file for storing LLM api keys:
+```
+GEMINI_KEY = ""
+OPENAI_KEY = ""
+CLAUDE_KEY = ""
+```
 > 請參照 [products_extend.ipynb](./products_extend.ipynb)
