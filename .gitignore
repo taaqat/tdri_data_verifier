@@ -2,3 +2,4 @@
 __pycache__
 .env
 sources
+openai_batch.ipynb
